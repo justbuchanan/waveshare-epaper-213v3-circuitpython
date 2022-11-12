@@ -7,6 +7,10 @@
 import board, displayio
 
 
+# display dimensions in pixels
+EPD_WIDTH  = 122
+EPD_HEIGHT = 250
+
 # pin mapping for the waveshare "hat" / breakout board for raspberry pi pico
 CS_PIN = board.GP9
 DC_PIN = board.GP8
@@ -15,6 +19,8 @@ BUSY_PIN = board.GP13
 
 SPI_SCK_PIN = board.GP10
 SPI_MOSI_PIN = board.GP11
+
+SPI_BAUD_RATE = 4_000_000
 
 # See official docs for the format of the commands here:
 # https://docs.circuitpython.org/en/latest/shared-bindings/displayio/#displayio.EPaperDisplay
@@ -52,10 +58,6 @@ _START_SEQUENCE = (
 )
 
 _STOP_SEQUENCE = b"\x10\x00\x01\x01" # enter deep sleep mode
-
-
-EPD_WIDTH  = 122
-EPD_HEIGHT = 250
 
 
 class Waveshare213V3(displayio.EPaperDisplay):

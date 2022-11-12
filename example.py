@@ -14,7 +14,7 @@ display_bus = displayio.FourWire(
     command=waveshare213V3.DC_PIN,
     chip_select=waveshare213V3.CS_PIN,
     reset=waveshare213V3.RST_PIN,
-    baudrate=4_000_000,
+    baudrate=waveshare213V3.SPI_BAUD_RATE,
 )
 
 display = waveshare213V3.Waveshare213V3(
