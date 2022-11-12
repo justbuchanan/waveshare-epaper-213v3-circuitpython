@@ -4,7 +4,7 @@
 # * black/white 250x122 pixel display
 # * code based on https://github.com/waveshare/Pico_ePaper_Code
 
-import board, displayio, time
+import board, displayio
 
 
 # pin mapping for the waveshare "hat" / breakout board for raspberry pi pico
@@ -31,8 +31,10 @@ _START_SEQUENCE = (
     b"\x3C\x00\x01\x05"             # border waveform?
     b"\x21\x00\x02\x00\x80"         # Display update control
     b"\x18\x00\x01\x80"             # read built-in temperature sensor
-    # LUT - '\x99' means 153 LUT entries
-    b"\x32\x00\x99"
+
+    # lookup table (LUT)
+    b"\x32\x00\x99" # this bit is the command to update the LUT, the below
+    # large block is the LUT itself. '\x99' means 153 LUT entries
     b"\x80\x4A\x40\x00\x00\x00\x00\x00\x00\x00\x00\x00\x40\x4A\x80\x00\x00\x00"
     b"\x00\x00\x00\x00\x00\x00\x80\x4A\x40\x00\x00\x00\x00\x00\x00\x00\x00\x00"
     b"\x40\x4A\x80\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -75,8 +77,6 @@ class Waveshare213V3(displayio.EPaperDisplay):
             ram_width=ram_width,
             ram_height=EPD_HEIGHT, # TODO: divide by eight?
             two_byte_sequence_length = True, # LUT is too big to specify its size in 7 bits
-            busy_state=True, # TODO: use default val of true
-            black_bits_inverted = False,
             write_black_ram_command=0x24,
             set_column_window_command=0x44,
             set_row_window_command=0x45,
@@ -84,5 +84,4 @@ class Waveshare213V3(displayio.EPaperDisplay):
             set_current_row_command=0x4F,
             refresh_display_command=0x20, # "display update control" - correct?
             refresh_time=3, # TODO
-            grayscale = True,
         )
